@@ -1,46 +1,127 @@
-# Getting Started with Create React App
+# Diamond Listing System
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A comprehensive application for managing diamond inventory, brokers, and transactions.
 
-## Available Scripts
+## Overview
 
-In the project directory, you can run:
+The Diamond Listing System is a React-based web application that allows users to:
+- Manage diamond inventory with detailed specifications
+- Maintain broker information
+- Create transactions between brokers and diamonds
+- Generate and send PDF invoices via email
 
-### `npm start`
+## Technologies Used
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- React 18
+- TypeScript
+- Ant Design for UI components
+- Tailwind CSS for styling
+- jsPDF for PDF generation
+- EmailJS for email functionality
+- React Toastify for notifications
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Installation
 
-### `npm test`
+1. Clone the repository:
+   ```
+   git clone https://github.com/yourusername/diamond-listing-system.git
+   cd diamond-listing-system
+   ```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+2. Install dependencies:
+   ```
+   npm install
+   ```
 
-### `npm run build`
+3. Create environment variables (see Configuration section)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+4. Start the json server:
+   ```
+   npm run server
+   ```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+5. Start the development server:
+   ```
+   npm start
+   ```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Configuration
 
-### `npm run eject`
+### Environment Variables
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Create a `.env` file in the root directory with the following variables:
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```
+# EmailJS Configuration
+REACT_APP_EMAILJS_USER_ID=your_emailjs_user_id
+REACT_APP_EMAILJS_SERVICE_ID=your_emailjs_service_id
+REACT_APP_EMAILJS_TEMPLATE_ID=your_emailjs_template_id
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+These variables are required for the email functionality to work properly. You can obtain these values by:
+1. Creating an account at [EmailJS](https://www.emailjs.com/)
+2. Setting up a service (Gmail, Outlook, etc.)
+3. Creating an email template
+4. Copying the User ID, Service ID, and Template ID to your `.env` file
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+A `.env.example` file is provided as a template.
 
-## Learn More
+### EmailJS Setup
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+For detailed instructions on setting up EmailJS:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+1. Sign up at [EmailJS](https://www.emailjs.com/)
+2. Create a new service (connect your email provider)
+3. Create an email template with the following variables:
+   - `{{to_name}}` - Broker name
+   - `{{to_email}}` - Broker email
+   - `{{invoice_number}}` - Invoice number
+   - `{{invoice_date}}` - Date of invoice
+   - `{{total_amount}}` - Total invoice amount
+   - `{{total_diamonds}}` - Number of diamonds
+   - `{{total_carats}}` - Total carats
+   - `{{message}}` - Custom message
+   - `{{pdf_attachment}}` - PDF attachment (base64)
+4. Get your User ID, Service ID, and Template ID
+5. Add these values to your `.env` file
+
+## Features
+
+### Broker Management
+- Add, edit, and delete brokers
+- Filter brokers by status
+- Sort brokers by name or rate
+
+### Diamond Inventory
+- Add, edit, and delete diamonds with detailed specifications
+- Bulk upload diamonds via Excel
+- Filter and sort diamonds by various attributes
+- Automatic calculation of PPC (Price Per Carat) and total amount
+
+### Transaction Management
+- Select broker and diamonds for transactions
+- View summary matrix of selected diamonds
+- Generate invoices with detailed information
+- Download invoices as PDF
+- Send invoices to brokers via email
+
+### Notifications
+- Toast notifications for all operations
+- Success and error messages for API calls
+- Email status notifications
+
+## Project Structure
+
+```
+src/
+├── components/         # Reusable UI components
+│   ├── Brokers/        # Broker-related components
+│   ├── Diamonds/       # Diamond-related components
+│   ├── Layout/         # Layout components
+│   └── Transactions/   # Transaction-related components
+├── hooks/              # Custom React hooks
+├── pages/              # Page components
+├── services/           # API services
+├── types/              # TypeScript type definitions
+└── utils/              # Utility functions
+```

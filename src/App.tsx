@@ -1,26 +1,39 @@
 import React from 'react';
-import logo from './logo.svg';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import AppLayout from './components/Layout/AppLayout';
+import BrokersPage from './pages/BrokersPage';
+import DiamondsPage from './pages/DiamondsPage';
+import TransactionsPage from './pages/TransactionsPage';
 import './App.css';
 
-function App() {
+const App: React.FC = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
+      <Routes>
+        <Route path="/" element={<AppLayout />}>
+          <Route index element={<Navigate to="/brokers" replace />} />
+          <Route path="brokers" element={<BrokersPage />} />
+          <Route path="diamonds" element={<DiamondsPage />} />
+          <Route path="transactions" element={<TransactionsPage />} />
+          <Route path="*" element={<Navigate to="/brokers" replace />} />
+        </Route>
+      </Routes>
+    </Router>
   );
-}
+};
 
 export default App;

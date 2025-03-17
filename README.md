@@ -24,7 +24,7 @@ The Diamond Listing System is a React-based web application that allows users to
 
 1. Clone the repository:
    ```
-   git clone https://github.com/yourusername/diamond-listing-system.git
+   git clone https://github.com/KishanPadsala1/diamond-listing-system.git
    cd diamond-listing-system
    ```
 

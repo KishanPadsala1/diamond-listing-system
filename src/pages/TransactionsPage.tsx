@@ -62,6 +62,7 @@ const TransactionsPage: React.FC = () => {
   }, []);
 
   const resetSelections = () => {
+    setActiveTab('diamonds');
     setSelectedBroker(null);
     setSelectedDiamonds([]);
     setSelectedDiamondIds([]);

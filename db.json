@@ -1,57 +1,100 @@
 {
   "brokers": [
     {
-      "id": "1",
-      "name": "John Doe",
-      "email": "john.doe@example.com",
-      "phone": "123-456-7890",
-      "address": "123 Main St, New York, NY 10001",
-      "brokerRate": 2.5,
+      "id": "c193",
+      "name": "Kishan Padsala",
+      "email": "kishanpadsala1@gmail.com",
+      "phone": "782-234-1289",
+      "address": "1234 Elm Street Springfield, IL 62704 USA",
+      "brokerRate": 4,
       "isActive": true
     },
     {
-      "id": "be91",
-      "name": "Kishan",
-      "email": "kishanpadsala1@gmail.com",
-      "phone": "8928578390",
-      "address": "100 Main St, New York, NY 10001",
-      "brokerRate": 20,
+      "id": "3477",
+      "name": "John Doe",
+      "email": "johndoe@gmail.com",
+      "phone": "231-235-5634",
+      "address": "Test wed",
+      "brokerRate": 8,
       "isActive": true
+    },
+    {
+      "id": "c7d3",
+      "name": "Stone wills",
+      "email": "wills@gmail.com",
+      "phone": "832-245-5232",
+      "address": "Demo ewq",
+      "brokerRate": 9,
+      "isActive": false
     }
   ],
   "diamonds": [
     {
-      "id": "1",
-      "stockNo": "1234567ABC",
-      "carat": 1.5,
-      "shape": "Round",
-      "color": "D",
-      "clarity": "VVS1",
-      "rapPrice": 10000,
-      "discount": -20,
-      "ppc": 8000,
-      "totalAmount": 12000
-    },
-    {
-      "id": "e5d7",
-      "stockNo": "5141750OWW",
+      "id": "0aad",
+      "stockNo": "4326963YGW",
       "carat": 24,
-      "shape": "Round",
-      "color": "F",
+      "shape": "Princess",
+      "color": "D",
       "clarity": "IF",
       "rapPrice": 1000,
-      "discount": -8,
-      "ppc": 920,
-      "totalAmount": 22080
+      "discount": -1,
+      "ppc": 990,
+      "totalAmount": 23760
+    },
+    {
+      "id": "7e08",
+      "stockNo": "3571734PFR",
+      "carat": 20,
+      "shape": "Cushion",
+      "color": "F",
+      "clarity": "VVS1",
+      "rapPrice": 200,
+      "discount": -4,
+      "ppc": 192,
+      "totalAmount": 3840
+    },
+    {
+      "id": "727f",
+      "stockNo": "8882920QBT",
+      "carat": 20,
+      "shape": "Emerald",
+      "color": "H",
+      "clarity": "VVS2",
+      "rapPrice": 300,
+      "discount": -10,
+      "ppc": 270,
+      "totalAmount": 5400
     }
   ],
   "transactions": [
     {
       "id": "b655",
-      "brokerId": "1",
+      "brokerId": null,
       "date": "2025-03-17T08:48:54.951Z",
-      "diamonds": ["1"],
+      "diamonds": [
+        "1"
+      ],
       "totalAmount": 12000
+    },
+    {
+      "id": "92c4",
+      "brokerId": "c193",
+      "date": "2025-03-18T04:19:15.688Z",
+      "diamonds": [
+        "7e08",
+        "0aad"
+      ],
+      "totalAmount": 27600
+    },
+    {
+      "id": "60bf",
+      "brokerId": "c193",
+      "date": "2025-03-18T04:19:59.321Z",
+      "diamonds": [
+        "0aad",
+        "7e08"
+      ],
+      "totalAmount": 27600
     }
   ]
 }

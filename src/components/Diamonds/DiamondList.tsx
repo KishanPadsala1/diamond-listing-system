@@ -4,6 +4,7 @@ import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { Diamond } from '../../types';
 import { formatCurrency, formatPercentage } from '../../utils/helpers';
 import { ColumnsType } from 'antd/es/table';
+import { getShapeFilters, getColorFilters, getClarityFilters } from '../../constants/diamondLabels';
 
 interface DiamondListProps {
   diamonds: Diamond[];
@@ -41,18 +42,7 @@ const DiamondList: React.FC<DiamondListProps> = ({
       title: 'Shape',
       dataIndex: 'shape',
       key: 'shape',
-      filters: [
-        { text: 'Round', value: 'Round' },
-        { text: 'Princess', value: 'Princess' },
-        { text: 'Cushion', value: 'Cushion' },
-        { text: 'Emerald', value: 'Emerald' },
-        { text: 'Oval', value: 'Oval' },
-        { text: 'Radiant', value: 'Radiant' },
-        { text: 'Pear', value: 'Pear' },
-        { text: 'Heart', value: 'Heart' },
-        { text: 'Marquise', value: 'Marquise' },
-        { text: 'Asscher', value: 'Asscher' },
-      ],
+      filters: getShapeFilters(),
       onFilter: (value: any, record: Diamond) => record.shape === value,
     },
     {
@@ -60,18 +50,7 @@ const DiamondList: React.FC<DiamondListProps> = ({
       dataIndex: 'color',
       key: 'color',
       render: (color: string) => <Tag color="blue">{color}</Tag>,
-      filters: [
-        { text: 'D', value: 'D' },
-        { text: 'E', value: 'E' },
-        { text: 'F', value: 'F' },
-        { text: 'G', value: 'G' },
-        { text: 'H', value: 'H' },
-        { text: 'I', value: 'I' },
-        { text: 'J', value: 'J' },
-        { text: 'K', value: 'K' },
-        { text: 'L', value: 'L' },
-        { text: 'M', value: 'M' },
-      ],
+      filters: getColorFilters(),
       onFilter: (value: any, record: Diamond) => record.color === value,
     },
     {
@@ -79,19 +58,7 @@ const DiamondList: React.FC<DiamondListProps> = ({
       dataIndex: 'clarity',
       key: 'clarity',
       render: (clarity: string) => <Tag color="purple">{clarity}</Tag>,
-      filters: [
-        { text: 'FL', value: 'FL' },
-        { text: 'IF', value: 'IF' },
-        { text: 'VVS1', value: 'VVS1' },
-        { text: 'VVS2', value: 'VVS2' },
-        { text: 'VS1', value: 'VS1' },
-        { text: 'VS2', value: 'VS2' },
-        { text: 'SI1', value: 'SI1' },
-        { text: 'SI2', value: 'SI2' },
-        { text: 'I1', value: 'I1' },
-        { text: 'I2', value: 'I2' },
-        { text: 'I3', value: 'I3' },
-      ],
+      filters: getClarityFilters(),
       onFilter: (value: any, record: Diamond) => record.clarity === value,
     },
     {

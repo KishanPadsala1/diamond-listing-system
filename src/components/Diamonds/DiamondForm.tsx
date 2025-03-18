@@ -1,7 +1,9 @@
 import React, { useEffect } from 'react';
-import { Form, Input, InputNumber, Select, Button } from 'antd';
+import { Form, Input, InputNumber, Select, Button, Space, Divider } from 'antd';
 import { Diamond } from '../../types';
 import { calculatePPC, calculateTotalAmount, generateStockNo } from '../../utils/helpers';
+import { InfoCircleOutlined } from '@ant-design/icons';
+import { SHAPE_LABELS, COLOR_LABELS, CLARITY_LABELS } from '../../constants/diamondLabels';
 
 interface DiamondFormProps {
   initialValues?: Diamond;
@@ -49,19 +51,54 @@ const DiamondForm: React.FC<DiamondFormProps> = ({
       initialValues={initialValues}
       onFinish={onFinish}
       onValuesChange={handleValuesChange}
+      requiredMark="optional"
+      validateTrigger={['onChange', 'onBlur']}
     >
+      <Divider orientation="left">Basic Information</Divider>
+      
       <Form.Item
         name="stockNo"
         label="Stock No"
-        rules={[{ required: true, message: 'Stock number is required' }]}
+        rules={[
+          { required: true, message: 'Stock number is required' },
+          { pattern: /^[A-Za-z0-9-]+$/, message: 'Stock number can only contain letters, numbers, and hyphens' }
+        ]}
+        tooltip={{ 
+          title: 'Unique identifier for this diamond', 
+          icon: <InfoCircleOutlined /> 
+        }}
+        hasFeedback
       >
-        <Input disabled={!!initialValues} placeholder="Auto-generated" />
+        <Input 
+          disabled={!!initialValues} 
+          placeholder="Auto-generated" 
+          maxLength={20}
+        />
       </Form.Item>
 
       <Form.Item
         name="carat"
         label="Carat"
-        rules={[{ required: true, message: 'Carat is required' }]}
+        rules={[
+          {
+            validator: async (_, value) => {
+              if (value === undefined || value === null || value === '') {
+                throw new Error('Carat is required');
+              }
+              if (typeof value !== 'number' && isNaN(Number(value))) {
+                throw new Error('Please enter a valid number');
+              }
+              if (Number(value) < 0.01) {
+                throw new Error('Carat must be at least 0.01');
+              }
+              if (Number(value) > 100) {
+                throw new Error('Carat cannot exceed 100');
+              }
+            },
+          },
+        ]}
+        tooltip="Weight of the diamond in carats"
+        hasFeedback
       >
         <InputNumber
           min={0.01}
@@ -76,37 +113,32 @@ const DiamondForm: React.FC<DiamondFormProps> = ({
         name="shape"
         label="Shape"
         rules={[{ required: true, message: 'Shape is required' }]}
+        hasFeedback
       >
         <Select placeholder="Select diamond shape">
-          <Select.Option value="Round">Round</Select.Option>
-          <Select.Option value="Princess">Princess</Select.Option>
-          <Select.Option value="Cushion">Cushion</Select.Option>
-          <Select.Option value="Emerald">Emerald</Select.Option>
-          <Select.Option value="Oval">Oval</Select.Option>
-          <Select.Option value="Radiant">Radiant</Select.Option>
-          <Select.Option value="Pear">Pear</Select.Option>
-          <Select.Option value="Heart">Heart</Select.Option>
-          <Select.Option value="Marquise">Marquise</Select.Option>
-          <Select.Option value="Asscher">Asscher</Select.Option>
+          {Object.entries(SHAPE_LABELS).map(([value, label]) => (
+            <Select.Option key={value} value={value}>
+              {label}
+            </Select.Option>
+          ))}
         </Select>
       </Form.Item>
+
+      <Divider orientation="left">Quality</Divider>
 
       <Form.Item
         name="color"
         label="Color"
         rules={[{ required: true, message: 'Color is required' }]}
+        tooltip="Color grade from D (colorless) to Z (light yellow)"
+        hasFeedback
       >
         <Select placeholder="Select diamond color">
-          <Select.Option value="D">D</Select.Option>
-          <Select.Option value="E">E</Select.Option>
-          <Select.Option value="F">F</Select.Option>
-          <Select.Option value="G">G</Select.Option>
-          <Select.Option value="H">H</Select.Option>
-          <Select.Option value="I">I</Select.Option>
-          <Select.Option value="J">J</Select.Option>
-          <Select.Option value="K">K</Select.Option>
-          <Select.Option value="L">L</Select.Option>
-          <Select.Option value="M">M</Select.Option>
+          {Object.entries(COLOR_LABELS).map(([value, label]) => (
+            <Select.Option key={value} value={value}>
+              {label}
+            </Select.Option>
+          ))}
         </Select>
       </Form.Item>
 
@@ -114,78 +146,120 @@ const DiamondForm: React.FC<DiamondFormProps> = ({
         name="clarity"
         label="Clarity"
         rules={[{ required: true, message: 'Clarity is required' }]}
+        tooltip="Clarity grade indicating the presence of inclusions"
+        hasFeedback
       >
         <Select placeholder="Select diamond clarity">
-          <Select.Option value="FL">FL</Select.Option>
-          <Select.Option value="IF">IF</Select.Option>
-          <Select.Option value="VVS1">VVS1</Select.Option>
-          <Select.Option value="VVS2">VVS2</Select.Option>
-          <Select.Option value="VS1">VS1</Select.Option>
-          <Select.Option value="VS2">VS2</Select.Option>
-          <Select.Option value="SI1">SI1</Select.Option>
-          <Select.Option value="SI2">SI2</Select.Option>
-          <Select.Option value="I1">I1</Select.Option>
-          <Select.Option value="I2">I2</Select.Option>
-          <Select.Option value="I3">I3</Select.Option>
+          {Object.entries(CLARITY_LABELS).map(([value, label]) => (
+            <Select.Option key={value} value={value}>
+              {label}
+            </Select.Option>
+          ))}
         </Select>
       </Form.Item>
+
+      <Divider orientation="left">Pricing</Divider>
 
       <Form.Item
         name="rapPrice"
         label="RAP Price"
-        rules={[{ required: true, message: 'RAP Price is required' }]}
+        rules={[
+          {
+            validator: async (_, value) => {
+              if (value === undefined || value === null || value === '') {
+                throw new Error('RAP Price is required');
+              }
+              if (typeof value !== 'number' && isNaN(Number(value))) {
+                throw new Error('Please enter a valid number');
+              }
+              if (Number(value) < 1) {
+                throw new Error('RAP Price must be at least 1');
+              }
+            },
+          },
+        ]}
+        tooltip="Rapaport Price - the benchmark price for diamonds"
+        hasFeedback
       >
         <InputNumber
-          min={0}
+          min={1}
           style={{ width: '100%' }}
           placeholder="Enter RAP price"
-          formatter={(value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-          parser={(value) => value ? parseFloat(value.replace(/\$\s?|(,*)/g, '')) : 0 as any}
+          prefix="$"
+          formatter={value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
         />
       </Form.Item>
 
       <Form.Item
         name="discount"
         label="Discount %"
-        rules={[{ required: true, message: 'Discount is required' }]}
+        rules={[
+          {
+            validator: async (_, value) => {
+              if (value === undefined || value === null || value === '') {
+                throw new Error('Discount is required');
+              }
+              if (typeof value !== 'number' && isNaN(Number(value))) {
+                throw new Error('Please enter a valid number');
+              }
+              if (Number(value) < -100) {
+                throw new Error('Discount cannot exceed -100%');
+              }
+              if (Number(value) > 0) {
+                throw new Error('Discount must be negative or zero');
+              }
+            },
+          },
+        ]}
+        tooltip="Discount from RAP Price (negative percentage)"
+        hasFeedback
       >
         <InputNumber
           max={0}
           style={{ width: '100%' }}
           placeholder="Enter discount percentage (negative)"
-          formatter={(value) => `${value}%`}
-          parser={(value) => value ? parseFloat(value.replace('%', '')) : 0 as any}
+          addonAfter="%"
         />
       </Form.Item>
 
       <Form.Item
         name="ppc"
         label="PPC (Price Per Carat)"
+        tooltip="Price per carat (calculated automatically)"
       >
         <InputNumber
           disabled
           style={{ width: '100%' }}
-          formatter={(value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-          parser={(value) => value ? parseFloat(value.replace(/\$\s?|(,*)/g, '')) : 0}
+          prefix="$"
+          formatter={value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
         />
       </Form.Item>
 
       <Form.Item
         name="totalAmount"
         label="Total Amount"
+        tooltip="Total price (calculated automatically)"
       >
         <InputNumber
           disabled
           style={{ width: '100%' }}
-          formatter={(value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-          parser={(value) => value ? parseFloat(value.replace(/\$\s?|(,*)/g, '')) : 0}
+          prefix="$"
+          formatter={value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
         />
       </Form.Item>
 
       <Form.Item>
-        <Button type="primary" htmlType="submit" loading={loading} block>
-          {initialValues ? 'Update Diamond' : 'Add Diamond'}
-        </Button>
+        <Space style={{ width: '100%', justifyContent: 'flex-end' }}>
+          <Button 
+            onClick={() => form.resetFields()} 
+            disabled={loading}
+          >
+            Reset
+          </Button>
+          <Button type="primary" htmlType="submit" loading={loading}>
+            {initialValues ? 'Update Diamond' : 'Add Diamond'}
+          </Button>
+        </Space>
       </Form.Item>
     </Form>
   );
